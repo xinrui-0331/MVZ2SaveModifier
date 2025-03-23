@@ -41,7 +41,7 @@ def compress(path,file):
 class ArchiveEditor:
     def __init__(self, root):
         self.root = root
-        self.root.title("MVZ2存档修改器v0.5 by QoZnoS")
+        self.root.title("MVZ2存档修改器v0.6 by QoZnoS")
 
         self.current_file = ""  # 当前操作的文件路径
         self.current_data = None # 当前操作的文件JSON数据
@@ -133,9 +133,9 @@ class ArchiveEditor:
         blueprint_control_frame.pack(side=tk.RIGHT, padx=10)
         self.blueprint_box = ttk.Combobox(blueprint_control_frame, values=blueprint_name, state="disabled", width=20)
         self.blueprint_box.pack(pady=(0, 12))
-        tk.Button(blueprint_control_frame, text="添加", width=8).pack(fill=tk.X, pady=12)
-        tk.Button(blueprint_control_frame, text="修改", width=8).pack(fill=tk.X, pady=12)
-        tk.Button(blueprint_control_frame, text="删除", width=8).pack(fill=tk.X, pady=12)
+        # tk.Button(blueprint_control_frame, text="添加", width=8).pack(fill=tk.X, pady=12)
+        tk.Button(blueprint_control_frame, text="修改", width=8, command=self.modify_blueprint).pack(fill=tk.X, pady=12)
+        # tk.Button(blueprint_control_frame, text="删除", width=8).pack(fill=tk.X, pady=12)
 
     # endregion
 
@@ -231,7 +231,12 @@ class ArchiveEditor:
     # 添加蓝图
 
     # 修改蓝图
-
+    def modify_blueprint(self):
+        if not self.blueprint_tree.selection():
+            return
+        selected = self.blueprint_tree.item(self.blueprint_tree.selection()[0])["values"][0]
+        self.current_data['level']['seedPacks'][selected]['seedID']=blueprint_id[blueprint_name.index(self.blueprint_box.get())]
+        self.refresh_blueprint()
     # 移除蓝图
 
     #endregion
@@ -305,6 +310,7 @@ class ArchiveEditor:
 
             self.output_btn.config(state="normal")
             self.refresh_artifact()
+            self.refresh_blueprint()
 
     def refresh_artifact(self):
         """刷新制品列表"""
@@ -313,7 +319,13 @@ class ArchiveEditor:
         for i in range(len(data_artifact)):
             self.artifact_tree.insert("", "end", values=(i, artifact_name[artifact_id.index(data_artifact[i]['definitionID'])]))
 
-
+    def refresh_blueprint(self):
+        """刷新蓝图列表"""
+        data_blueprint = self.current_data['level']['seedPacks']
+        self.blueprint_tree.delete(*self.blueprint_tree.get_children())
+        for i in range(len(data_blueprint)):
+            if data_blueprint[i]:
+                self.blueprint_tree.insert("", "end", values=(i, blueprint_name[blueprint_id.index(data_blueprint[i]['seedID'])]))
 
 
 
