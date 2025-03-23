@@ -41,7 +41,7 @@ def compress(path,file):
 class ArchiveEditor:
     def __init__(self, root):
         self.root = root
-        self.root.title("MVZ2存档修改器v0.4.1 by QoZnoS")
+        self.root.title("MVZ2存档修改器v0.5 by QoZnoS")
 
         self.current_file = ""  # 当前操作的文件路径
         self.current_data = None # 当前操作的文件JSON数据
@@ -54,7 +54,10 @@ class ArchiveEditor:
     def setup_ui(self):
         self.setup_user_frame()
         self.setup_file_frame()
+        self.frame_tree = tk.Frame(self.root)
+        self.frame_tree.pack(padx=10, fill=tk.BOTH, expand=True)
         self.setup_artifact_frame()
+        self.setup_blueprint_frame()
 
         # JSON 编辑区
         # self.text_editor = scrolledtext.ScrolledText(self.root, width=60, height=20)
@@ -99,27 +102,40 @@ class ArchiveEditor:
         
     def setup_artifact_frame(self):
         """制品"""
-        self.frame_artifact = tk.Frame(self.root)
-        self.frame_artifact.pack(padx=10, expand=True)
+        self.frame_artifact = tk.Frame(self.frame_tree)
+        self.frame_artifact.pack(side=tk.LEFT, padx=10, expand=True)
         # 制品列表
-        self.artifact_list = []
         self.artifact_tree = ttk.Treeview(self.frame_artifact,columns=("id","name"),show="headings",selectmode="browse")
         self.artifact_tree.heading("id",text="ID")
         self.artifact_tree.column("id",width=28)
         self.artifact_tree.heading("name",text="制品名称")
         self.artifact_tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=5, pady=5)
-
-        # 右侧控制容器
-        control_frame = tk.Frame(self.frame_artifact)
-        control_frame.pack(side=tk.RIGHT, padx=10)  # 固定在右侧
-        self.artifact_box = ttk.Combobox(control_frame, values=artifact_name, state="disabled", width=10)
+        # 相关控件
+        artifact_control_frame = tk.Frame(self.frame_artifact)
+        artifact_control_frame.pack(side=tk.RIGHT, padx=10)
+        self.artifact_box = ttk.Combobox(artifact_control_frame, values=artifact_name, state="disabled", width=10)
         self.artifact_box.pack(pady=(0, 12))
-        tk.Button(control_frame, text="添加", width=8, command=self.add_artifact).pack(fill=tk.X, pady=12)
-        tk.Button(control_frame, text="删除", width=8, command=self.remove_artifact).pack(fill=tk.X, pady=12)
+        tk.Button(artifact_control_frame, text="添加", width=8, command=self.add_artifact).pack(fill=tk.X, pady=12)
+        tk.Button(artifact_control_frame, text="删除", width=8, command=self.remove_artifact).pack(fill=tk.X, pady=12)
 
     def setup_blueprint_frame(self):
         """蓝图"""
-        self.frame_blueprint = tk.Frame(self.root)
+        self.frame_blueprint = tk.Frame(self.frame_tree)
+        self.frame_blueprint.pack(side=tk.LEFT, padx=10, expand=True)
+        # 蓝图列表
+        self.blueprint_tree = ttk.Treeview(self.frame_blueprint,columns=("id","name"),show="headings",selectmode="browse")
+        self.blueprint_tree.heading("id",text="ID")
+        self.blueprint_tree.column("id",width=28)
+        self.blueprint_tree.heading("name",text="蓝图名称")
+        self.blueprint_tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=5, pady=5)
+        # 相关控件
+        blueprint_control_frame = tk.Frame(self.frame_blueprint)
+        blueprint_control_frame.pack(side=tk.RIGHT, padx=10)
+        self.blueprint_box = ttk.Combobox(blueprint_control_frame, values=blueprint_name, state="disabled", width=20)
+        self.blueprint_box.pack(pady=(0, 12))
+        tk.Button(blueprint_control_frame, text="添加", width=8).pack(fill=tk.X, pady=12)
+        tk.Button(blueprint_control_frame, text="修改", width=8).pack(fill=tk.X, pady=12)
+        tk.Button(blueprint_control_frame, text="删除", width=8).pack(fill=tk.X, pady=12)
 
     # endregion
 
@@ -193,7 +209,6 @@ class ArchiveEditor:
         # print(new_artifact)
         self.current_data['level']['components']['mvz2:artifact']['artifacts']['artifacts'].append(new_artifact)
         self.refresh_artifact()
-
     # 移除制品
     def remove_artifact(self):
         if not self.artifact_tree.selection():
@@ -213,9 +228,6 @@ class ArchiveEditor:
         self.current_data['level']['components']['mvz2:artifact']['artifacts']['artifacts'].pop(selected)
         # 刷新列表
         self.refresh_artifact()
-
-
-
     # 添加蓝图
 
     # 修改蓝图
@@ -270,12 +282,14 @@ class ArchiveEditor:
     def refresh(self):
         """刷新界面"""
         if not self.current_data:
-            self.stageDefinition_box.config(state="disable")
+            self.stageDefinition_box.config(state="disabled")
             self.stageDefinition_box.set("未选择文件")
-            self.stageDefinitionID_box.config(state="disable")
+            self.stageDefinitionID_box.config(state="disabled")
             self.stageDefinitionID_box.set("")
-            self.artifact_box.config(state="disable")
+            self.artifact_box.config(state="disabled")
             self.artifact_box.set("")
+            self.blueprint_box.config(state="disabled")
+            self.blueprint_box.set("")
             self.filename_label.config(text="当前存档：未选择")
             
             self.output_btn.config(state="disabled")
@@ -286,6 +300,8 @@ class ArchiveEditor:
             self.stageDefinitionID_box.set(self.current_data['level']['stageDefinitionID'].split("_")[1])
             self.artifact_box.config(state="readonly")
             self.artifact_box.set("图鉴")
+            self.blueprint_box.config(state="readonly")
+            self.blueprint_box.set("发射器")
 
             self.output_btn.config(state="normal")
             self.refresh_artifact()
