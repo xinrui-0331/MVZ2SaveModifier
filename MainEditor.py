@@ -45,15 +45,11 @@ class ArchiveEditor:
 
         self.current_file = ""  # 当前操作的文件路径
         self.current_data = None # 当前操作的文件JSON数据
+        self.data_artifact = None # 制品
 
         self.get_usersdata() # 自动读取存档
         self.setup_ui() # 创建UI
-
-        # self.global_editor = GlobalEditor(self.root)
-        # self.global_editor.pack()
-        # self.entity_editor = EntityEditor(self.root)
-        # self.entity_editor.pack()
-    
+ 
     # region 创建UI
     def setup_ui(self):
         self.setup_user_frame()
@@ -104,16 +100,23 @@ class ArchiveEditor:
     def setup_artifact_frame(self):
         """制品"""
         self.frame_artifact = tk.Frame(self.root)
-        self.frame_artifact.pack(padx=10)
+        self.frame_artifact.pack(padx=10, expand=True)
         # 制品列表
         self.artifact_list = []
         self.artifact_tree = ttk.Treeview(self.frame_artifact,columns=("id","name"),show="headings",selectmode="browse")
         self.artifact_tree.heading("id",text="ID")
         self.artifact_tree.column("id",width=20)
         self.artifact_tree.heading("name",text="制品名称")
-        self.artifact_tree.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
-        # 制品选择器
-        self.artifact_box = ttk.Combobox(self.frame_artifact,values=artifact_name,state="disable",width=10)
+        self.artifact_tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=5, pady=5)
+
+        # 右侧控制容器
+        control_frame = tk.Frame(self.frame_artifact)
+        control_frame.pack(side=tk.RIGHT, padx=10)  # 固定在右侧
+        self.artifact_box = ttk.Combobox(control_frame, values=artifact_name, state="disabled", width=10)
+        self.artifact_box.pack(pady=(0, 12))
+        tk.Button(control_frame, text="添加", width=8).pack(fill=tk.X, pady=12)
+        tk.Button(control_frame, text="修改", width=8).pack(fill=tk.X, pady=12)
+        tk.Button(control_frame, text="删除", width=8).pack(fill=tk.X, pady=12)
 
     def setup_blueprint_frame(self):
         """蓝图"""
@@ -156,19 +159,16 @@ class ArchiveEditor:
         self.currentUserIndex = selected_user
         self.username = self.users['metas'][self.currentUserIndex]['username']
         self.username_label.config(text="当前用户：" + self.username)
-
     # 混乱
     def mix_stageDefinitionID(self,event):
         """处理混乱"""
         self.current_data['level']['stageDefinitionID'] = maps_id[maps_name.index(self.stageDefinition_box.get())] + "_" + self.stageDefinitionID_box.get()
-
     # 保存文件
     def output_file(self):
         save_dir=get_save_path() + "/user%d/mvz2/level/"%(self.currentUserIndex) + os.path.basename(self.current_file)
         output=json.dumps(self.current_data,cls=CustonJson.CustomEncoder).encode("utf-8")
         self.status.set("已保存到：" + save_dir)
         compress(save_dir,output)
-
     # 添加制品
     # def add_artifact(self):
 
@@ -190,25 +190,6 @@ class ArchiveEditor:
         self.currentUserIndex = self.users['currentUserIndex']
         self.username = self.users['metas'][self.currentUserIndex]['username']
     
-    def refresh(self):
-        """刷新界面"""
-        if not self.current_data:
-            self.stageDefinition_box.config(state="disable")
-            self.stageDefinition_box.set("未选择文件")
-            self.stageDefinitionID_box.config(state="disable")
-            self.stageDefinitionID_box.set("")
-            self.filename_label.config(text="当前存档：未选择")
-            
-            self.output_btn.config(state="disabled")
-        else:
-            self.stageDefinition_box.config(state="readonly")
-            self.stageDefinition_box.set(maps_name[maps_id.index(self.current_data['level']['stageDefinitionID'].split("_")[0])])
-            
-            self.stageDefinitionID_box.config(state="readonly")
-            self.stageDefinitionID_box.set(self.current_data['level']['stageDefinitionID'].split("_")[1])
-
-            self.output_btn.config(state="normal")
-
     def decompress(self):
         '''单文件解压'''
         file_path = filedialog.askopenfilename(
@@ -241,13 +222,44 @@ class ArchiveEditor:
         except Exception as e:
             messagebox.showerror("错误", f"压缩失败: {str(e)}")
 
-
     # endregion
 
+    # 刷新
+    def refresh(self):
+        """刷新界面"""
+        if not self.current_data:
+            self.stageDefinition_box.config(state="disable")
+            self.stageDefinition_box.set("未选择文件")
+            self.stageDefinitionID_box.config(state="disable")
+            self.stageDefinitionID_box.set("")
+            self.filename_label.config(text="当前存档：未选择")
+            
+            self.output_btn.config(state="disabled")
+        else:
+            self.stageDefinition_box.config(state="readonly")
+            self.stageDefinition_box.set(maps_name[maps_id.index(self.current_data['level']['stageDefinitionID'].split("_")[0])])
+            
+            self.stageDefinitionID_box.config(state="readonly")
+            self.stageDefinitionID_box.set(self.current_data['level']['stageDefinitionID'].split("_")[1])
+
+            self.output_btn.config(state="normal")
+            self.refresh_artifact()
+
+    def refresh_artifact(self):
+        """刷新制品列表"""
+        self.data_artifact=self.current_data['level']['components']['mvz2:artifact']['artifacts']['artifacts']
+        self.artifact_tree.delete(*self.artifact_tree.get_children())
+        for i in range(len(self.data_artifact)):
+            self.artifact_tree.insert("", "end", values=(i, self.data_artifact[i]['definitionID']))
+        # for artifact in self.data_artifact:
+        #     self.artifact_tree.insert("", "end", values=(self.data_artifact.index(artifact)))
+
+
+
+
+
+
 if __name__ == "__main__":
-    if os.name == 'nt':
-        os.environ["PATH"] = os.path.dirname(__file__) + os.pathsep + os.environ["PATH"]
-        os.environ["PYTHONLEGACYWINDOWSFSENCODING"] = "1"  # 启用旧版文件系统编码
     # messagebox.showinfo("免责声明",f"使用该软件造成的文件损坏，本人一概不负责")
     root = tk.Tk()
     app = ArchiveEditor(root)
