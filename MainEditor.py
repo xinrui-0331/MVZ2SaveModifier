@@ -114,7 +114,7 @@ class ArchiveEditor:
         control_frame.pack(side=tk.RIGHT, padx=10)  # 固定在右侧
         self.artifact_box = ttk.Combobox(control_frame, values=artifact_name, state="disabled", width=10)
         self.artifact_box.pack(pady=(0, 12))
-        tk.Button(control_frame, text="添加", width=8).pack(fill=tk.X, pady=12)
+        tk.Button(control_frame, text="添加", width=8, command=self.add_artifact).pack(fill=tk.X, pady=12)
         tk.Button(control_frame, text="删除", width=8, command=self.remove_artifact).pack(fill=tk.X, pady=12)
 
     def setup_blueprint_frame(self):
@@ -169,7 +169,27 @@ class ArchiveEditor:
         self.status.set("已保存到：" + save_dir)
         compress(save_dir,output)
     # 添加制品
-    # def add_artifact(self):
+    def add_artifact(self):
+        if not self.artifact_box.get():
+            return
+        # 制品模板
+        new_artifact = { 
+            "definitionID":artifact_id[artifact_name.index(self.artifact_box.get())],
+            "propertyDict": {
+                "properties": {
+                    "glowing": True
+                }
+            },
+            "auras": [
+                {
+                "updateTimer":{},
+                "buffs":[]
+                }
+            ]
+        }
+        # print(new_artifact)
+        self.current_data['level']['components']['mvz2:artifact']['artifacts']['artifacts'].append(new_artifact)
+        self.refresh_artifact()
 
     # 移除制品
     def remove_artifact(self):
@@ -250,6 +270,8 @@ class ArchiveEditor:
             self.stageDefinition_box.set("未选择文件")
             self.stageDefinitionID_box.config(state="disable")
             self.stageDefinitionID_box.set("")
+            self.artifact_box.config(state="disable")
+            self.artifact_box.set("")
             self.filename_label.config(text="当前存档：未选择")
             
             self.output_btn.config(state="disabled")
