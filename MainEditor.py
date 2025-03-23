@@ -41,7 +41,7 @@ def compress(path,file):
 class ArchiveEditor:
     def __init__(self, root):
         self.root = root
-        self.root.title("MVZ2存档修改器v0.4 by QoZnoS")
+        self.root.title("MVZ2存档修改器v0.4.1 by QoZnoS")
 
         self.current_file = ""  # 当前操作的文件路径
         self.current_data = None # 当前操作的文件JSON数据
@@ -176,12 +176,15 @@ class ArchiveEditor:
         new_artifact = { 
             "definitionID":artifact_id[artifact_name.index(self.artifact_box.get())],
             "propertyDict": {
-                "properties": {
-                    "glowing": True
-                }
+                "properties": {}
             },
             "auras": [
                 {
+                "updateTimer":{},
+                "buffs":[]
+                },
+                {
+                "_id":1,
                 "updateTimer":{},
                 "buffs":[]
                 }
@@ -199,12 +202,13 @@ class ArchiveEditor:
         # 先删对应关卡buff
         selected_artifact = self.current_data['level']['components']['mvz2:artifact']['artifacts']['artifacts'][selected]
         if not len(selected_artifact['auras'])==0:
-            for buff_artifact in selected_artifact['auras'][0]['buffs']:
-                if not buff_artifact['_t']=="BuffReferenceLevel":
-                    continue
-                for buff_level in list(self.current_data['level']['buffs']['buffs']):
-                    if buff_level["_id"][1]==buff_artifact['buffId'][1]:
-                        self.current_data['level']['buffs']['buffs'].remove(buff_level)
+            for auras in selected_artifact['auras']:
+                for buff_artifact in auras['buffs']:
+                    if not buff_artifact['_t']=="BuffReferenceLevel":
+                        continue
+                    for buff_level in list(self.current_data['level']['buffs']['buffs']):
+                        if buff_level["_id"][1]==buff_artifact['buffId'][1]:
+                            self.current_data['level']['buffs']['buffs'].remove(buff_level)
         # 再删制品
         self.current_data['level']['components']['mvz2:artifact']['artifacts']['artifacts'].pop(selected)
         # 刷新列表
