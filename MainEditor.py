@@ -41,7 +41,7 @@ def compress(path,file):
 class ArchiveEditor:
     def __init__(self, root):
         self.root = root
-        self.root.title("MVZ2存档修改器v0.3 by QoZnoS")
+        self.root.title("MVZ2存档修改器v0.4 by QoZnoS")
 
         self.current_file = ""  # 当前操作的文件路径
         self.current_data = None # 当前操作的文件JSON数据
@@ -105,7 +105,7 @@ class ArchiveEditor:
         self.artifact_list = []
         self.artifact_tree = ttk.Treeview(self.frame_artifact,columns=("id","name"),show="headings",selectmode="browse")
         self.artifact_tree.heading("id",text="ID")
-        self.artifact_tree.column("id",width=20)
+        self.artifact_tree.column("id",width=28)
         self.artifact_tree.heading("name",text="制品名称")
         self.artifact_tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=5, pady=5)
 
