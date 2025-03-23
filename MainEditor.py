@@ -115,7 +115,6 @@ class ArchiveEditor:
         self.artifact_box = ttk.Combobox(control_frame, values=artifact_name, state="disabled", width=10)
         self.artifact_box.pack(pady=(0, 12))
         tk.Button(control_frame, text="添加", width=8).pack(fill=tk.X, pady=12)
-        tk.Button(control_frame, text="修改", width=8).pack(fill=tk.X, pady=12)
         tk.Button(control_frame, text="删除", width=8, command=self.remove_artifact).pack(fill=tk.X, pady=12)
 
     def setup_blueprint_frame(self):
@@ -257,9 +256,10 @@ class ArchiveEditor:
         else:
             self.stageDefinition_box.config(state="readonly")
             self.stageDefinition_box.set(maps_name[maps_id.index(self.current_data['level']['stageDefinitionID'].split("_")[0])])
-            
             self.stageDefinitionID_box.config(state="readonly")
             self.stageDefinitionID_box.set(self.current_data['level']['stageDefinitionID'].split("_")[1])
+            self.artifact_box.config(state="readonly")
+            self.artifact_box.set("图鉴")
 
             self.output_btn.config(state="normal")
             self.refresh_artifact()
@@ -270,21 +270,6 @@ class ArchiveEditor:
         self.artifact_tree.delete(*self.artifact_tree.get_children())
         for i in range(len(data_artifact)):
             self.artifact_tree.insert("", "end", values=(i, artifact_name[artifact_id.index(data_artifact[i]['definitionID'])]))
-            # if len(data_artifact[i]['auras']) == 0:
-            #     continue
-            # for buff_artifact in list(data_artifact[i]['auras'][0]['buffs']):
-            #     for buff_level in list(self.current_data['level']['buffs']['buffs']):
-            #         if (
-            #             buff_artifact['_t'] == "BuffReferenceLevel"
-            #             and buff_artifact['buffId'][1] == buff_level['_id'][1]
-            #         ):
-            #             self.current_data['level']['buffs']['buffs'].remove(buff_level)
-            #             break
-            #     else:
-            #         continue
-                # self.current_data[i]['auras'][0]['buffs'].remove(buff_artifact)
-        # print(self.current_data['level']['components']['mvz2:artifact']['artifacts']['artifacts'])
-        # print(self.current_data['level']['buffs']['buffs'])
 
 
 
