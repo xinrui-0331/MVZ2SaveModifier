@@ -159,7 +159,7 @@ class AboutWindow:
         # 文字信息
         text_content = """
 声明：使用该软件造成的文件损坏，作者本人一概不负责
-
+暂时不支持修改传送带中的蓝图
 该修改器由QoZnoS制作
 部分代码由Deepseek辅助生成
 icon来自MVZ2"""

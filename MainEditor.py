@@ -371,7 +371,7 @@ class ArchiveEditor:
         return False
     # 背景音乐
     def change_musicID(self,event):
-        self.current_data['musicID'] = musics_id[musics_name.index(self.numeric_stageDefinition_box.get())]
+        self.current_data['musicID'] = musics_id[musics_name.index(self.numeric_musicID_box.get())]
     # 关于
     def open_about(self):
         Selector.AboutWindow(self.root)
