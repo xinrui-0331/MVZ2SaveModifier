@@ -42,12 +42,20 @@ def compress(path,file):
 class ArchiveEditor:
     def __init__(self, root):
         self.root = root
-        self.root.title("MVZ2存档修改器v0.6 by QoZnoS")
+        self.root.title("MVZ2存档修改器v0.8 by QoZnoS")
 
         self.current_file = ""  # 当前操作的文件路径
         self.current_data = None # 当前操作的文件JSON数据
-        self.data_artifact = None # 制品
         self.page = 1 # 界面，0为数值编辑器，1为蓝图/制品编辑器
+
+
+        self.data_wave = tk.StringVar(value="0")
+        self.data_flag = tk.StringVar(value="0")
+        self.data_energy = tk.StringVar(value="0")
+        self.data_maxEnergy = tk.StringVar(value="0")
+        self.data_starshardCount = tk.StringVar(value="0")
+        self.data_starshardSlotCount = tk.StringVar(value="0")
+
 
         self.get_usersdata() # 自动读取存档
         self.setup_ui() # 创建UI
@@ -140,18 +148,38 @@ class ArchiveEditor:
         # tk.Button(blueprint_control_frame, text="删除", width=8).pack(fill=tk.X, pady=12)
 
     def setup_numeric_group_frame(self):
-        frame_line = tk.Frame(self.frame_numeric)
-        frame_line.pack(side=tk.LEFT, padx=10, expand=True)
-        tk.Label(frame_line, text="章节：").grid(row=0, column=0, sticky="w", pady=12)
-        self.stageDefinition_box = ttk.Combobox(frame_line,values=maps_name,state="disable",width=16)
-        self.stageDefinition_box.grid(row=0, column=1, sticky="ew", pady=12)
-        self.stageDefinition_box.set("")
-        self.stageDefinition_box.bind("<<ComboboxSelected>>",self.mix_stageDefinitionID)
-        tk.Label(frame_line, text="关卡：").grid(row=1, column=0, sticky="w", pady=12)
-        self.stageDefinitionID_box = ttk.Combobox(frame_line,values=level,state="disable",width=16)
-        self.stageDefinitionID_box.grid(row=1, column=1, sticky="ew", pady=12)
-        self.stageDefinitionID_box.set("")
-        self.stageDefinitionID_box.bind("<<ComboboxSelected>>",self.mix_stageDefinitionID)
+        frame_group = tk.Frame(self.frame_numeric)
+        frame_group.pack(side=tk.LEFT, padx=10, expand=True)
+        tk.Label(frame_group, text="章节：").grid(row=0, column=0, sticky="w", pady=12)
+        self.numeric_stageDefinition_box = ttk.Combobox(frame_group,values=maps_name,state="disable",width=16)
+        self.numeric_stageDefinition_box.grid(row=0, column=1, sticky="ew", pady=12)
+        self.numeric_stageDefinition_box.set("")
+        self.numeric_stageDefinition_box.bind("<<ComboboxSelected>>",self.mix_stageDefinitionID)
+        tk.Label(frame_group, text="关卡：").grid(row=1, column=0, sticky="w", pady=12)
+        self.numeric_stageDefinitionID_box = ttk.Combobox(frame_group,values=level,state="disable",width=16)
+        self.numeric_stageDefinitionID_box.grid(row=1, column=1, sticky="ew", pady=12)
+        self.numeric_stageDefinitionID_box.set("")
+        self.numeric_stageDefinitionID_box.bind("<<ComboboxSelected>>",self.mix_stageDefinitionID)
+        tk.Label(frame_group, text="旗数：").grid(row=2, column=0, sticky="w", pady=12)
+        self.numeric_flag_input = ttk.Entry(frame_group, state="disable", textvariable=self.data_flag, validate='key',validatecommand=(self.root.register(self.change_flag), '%d', '%i', '%P', '%s', '%v', '%V', '%W'))
+        self.numeric_flag_input.grid(row=2, column=1, sticky="ew", pady=12)
+        tk.Label(frame_group, text="波数：").grid(row=3, column=0, sticky="w", pady=12)
+        self.numeric_wave_input = ttk.Entry(frame_group, state="disable", textvariable=self.data_wave, validate='key',validatecommand=(self.root.register(self.change_wave), '%d', '%i', '%P', '%s', '%v', '%V', '%W'))
+        self.numeric_wave_input.grid(row=3, column=1, sticky="ew", pady=12)
+        tk.Label(frame_group, text="当前机械能：").grid(row=0, column=2, sticky="w", pady=12)
+        self.numeric_energy_input = ttk.Entry(frame_group, state="disable", textvariable=self.data_energy, validate='key',validatecommand=(self.root.register(self.change_energy), '%d', '%i', '%P', '%s', '%v', '%V', '%W'))
+        self.numeric_energy_input.grid(row=0, column=3, sticky="ew", pady=12)
+        tk.Label(frame_group, text="机械能上限：").grid(row=1, column=2, sticky="w", pady=12)
+        self.numeric_maxEnergy_input = ttk.Entry(frame_group, state="disable", textvariable=self.data_maxEnergy, validate='key',validatecommand=(self.root.register(self.change_maxEnergy), '%d', '%i', '%P', '%s', '%v', '%V', '%W'))
+        self.numeric_maxEnergy_input.grid(row=1, column=3, sticky="ew", pady=12)
+        tk.Label(frame_group, text="星之碎片数：").grid(row=2, column=2, sticky="w", pady=12)
+        self.numeric_starshardCount_input = ttk.Entry(frame_group, state="disable", textvariable=self.data_starshardCount, validate='key',validatecommand=(self.root.register(self.change_starshardCount), '%d', '%i', '%P', '%s', '%v', '%V', '%W'))
+        self.numeric_starshardCount_input.grid(row=2, column=3, sticky="ew", pady=12)
+        tk.Label(frame_group, text="星之碎片槽：").grid(row=3, column=2, sticky="w", pady=12)
+        self.numeric_starshardSlotCount_input = ttk.Entry(frame_group, state="disable", textvariable=self.data_starshardSlotCount, validate='key',validatecommand=(self.root.register(self.change_starshardSlotCount), '%d', '%i', '%P', '%s', '%v', '%V', '%W'))
+        self.numeric_starshardSlotCount_input.grid(row=3, column=3, sticky="ew", pady=12)
+
+
 
     # endregion
 
@@ -253,7 +281,67 @@ class ArchiveEditor:
     # 混乱
     def mix_stageDefinitionID(self,event):
         """处理混乱"""
-        self.current_data['level']['stageDefinitionID'] = maps_id[maps_name.index(self.stageDefinition_box.get())] + "_" + self.stageDefinitionID_box.get()
+        self.current_data['level']['stageDefinitionID'] = maps_id[maps_name.index(self.numeric_stageDefinition_box.get())] + "_" + self.numeric_stageDefinitionID_box.get()
+    # 旗数
+    def change_flag(self, action, index, value, prior_value, text, validation_type, trigger_type):
+        if value=="":
+            self.current_data['level']['currentFlag']=0
+            return True
+        if value.isdigit():
+            self.current_data['level']['currentFlag']=int(value)
+            return True
+        return False
+    # 波数
+    def change_wave(self, action, index, value, prior_value, text, validation_type, trigger_type):
+        if value=="":
+            self.current_data['level']['currentWave']=0
+            return True
+        if value.isdigit():
+            self.current_data['level']['currentWave']=int(value)
+            return True
+        return False
+    # 当前机械能
+    def change_energy(self, action, index, value, prior_value, text, validation_type, trigger_type):
+        if value=="":
+            self.current_data['level']['energy']=0
+            return True
+        if value.isdigit():
+            self.current_data['level']['energy']=int(value)
+            return True
+        return False
+    # 机械能上限
+    def change_maxEnergy(self, action, index, value, prior_value, text, validation_type, trigger_type):
+        if value=="":
+            self.current_data['level']['Option']['maxEnergy']=0
+            return True
+        if value.isdigit():
+            self.current_data['level']['Option']['maxEnergy']=int(value)
+            return True
+        return False
+    # 星之碎片数
+    def change_starshardCount(self, action, index, value, prior_value, text, validation_type, trigger_type):
+        if value=="":
+            self.current_data['level']['properties']['starshardCount']=0
+            return True
+        if value.isdigit():
+            self.current_data['level']['properties']['starshardCount']=int(value)
+            return True
+        return False
+    # 星之碎片槽
+    def change_starshardSlotCount(self, action, index, value, prior_value, text, validation_type, trigger_type):
+        if value=="":
+            self.current_data['level']['properties']['starshardSlotCount']=0
+            return True
+        if value.isdigit():
+            self.current_data['level']['properties']['starshardSlotCount']=int(value)
+            return True
+        return False
+
+
+
+
+
+
 
     # endregion
     # 保存文件
@@ -356,16 +444,33 @@ class ArchiveEditor:
 
     def refresh_numeric(self):
         if not self.current_data:
-            self.stageDefinition_box.config(state="disabled")
-            self.stageDefinition_box.set("")
-            self.stageDefinitionID_box.config(state="disabled")
-            self.stageDefinitionID_box.set("")
+            self.numeric_stageDefinition_box.config(state="disabled")
+            self.numeric_stageDefinition_box.set("")
+            self.numeric_stageDefinitionID_box.config(state="disabled")
+            self.numeric_stageDefinitionID_box.set("")
+            self.numeric_flag_input.config(state="disable")
+            self.numeric_wave_input.config(state="disable")
+            self.numeric_energy_input.config(state="disable")
+            self.numeric_maxEnergy_input.config(state="disable")
+            self.numeric_starshardCount_input.config(state="disable")
+            self.numeric_starshardSlotCount_input.config(state="disable")
         else:
-            self.stageDefinition_box.config(state="readonly")
-            self.stageDefinition_box.set(maps_name[maps_id.index(self.current_data['level']['stageDefinitionID'].split("_")[0])])
-            self.stageDefinitionID_box.config(state="readonly")
-            self.stageDefinitionID_box.set(self.current_data['level']['stageDefinitionID'].split("_")[1])
-
+            self.numeric_stageDefinition_box.config(state="readonly")
+            self.numeric_stageDefinition_box.set(maps_name[maps_id.index(self.current_data['level']['stageDefinitionID'].split("_")[0])])
+            self.numeric_stageDefinitionID_box.config(state="readonly")
+            self.numeric_stageDefinitionID_box.set(self.current_data['level']['stageDefinitionID'].split("_")[1])
+            self.numeric_flag_input.config(state="normal")
+            self.data_flag.set(self.current_data['level']['currentFlag'])
+            self.numeric_wave_input.config(state="normal")
+            self.data_wave.set(self.current_data['level']['currentWave'])
+            self.numeric_energy_input.config(state="normal")
+            self.data_energy.set(self.current_data['level']['energy'])
+            self.numeric_maxEnergy_input.config(state="normal")
+            self.data_maxEnergy.set(self.current_data['level']['Option']['maxEnergy'])
+            self.numeric_starshardCount_input.config(state="normal")
+            self.data_starshardCount.set(self.current_data['level']['properties']['starshardCount'])
+            self.numeric_starshardSlotCount_input.config(state="normal")
+            self.data_starshardSlotCount.set(self.current_data['level']['properties']['starshardSlotCount'])
 
 if __name__ == "__main__":
     # messagebox.showinfo("免责声明",f"使用该软件造成的文件损坏，本人一概不负责")
