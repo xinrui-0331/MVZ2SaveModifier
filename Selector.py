@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox, scrolledtext, ttk
 import os
+import webbrowser
 
 # 存档选择窗口
 class SaveFileSelector(tk.Toplevel):
@@ -139,3 +140,58 @@ class UserSelector(tk.Toplevel):
         # 执行回调并关闭窗口
         self.on_select(selected_user)
         self.destroy()
+
+class AboutWindow:
+    def __init__(self, parent):
+        # 创建顶级窗口
+        self.window = tk.Toplevel(parent)
+        self.window.title("关于")
+        self.window.geometry("400x320")
+        self.window.resizable(False, False)  # 禁止调整大小
+        
+        # 设置窗口图标（可选）
+        # self.window.iconbitmap("icon.ico")
+        
+        # 主容器
+        container = ttk.Frame(self.window)
+        container.pack(padx=20, pady=20, fill="both", expand=True)
+        
+        # 文字信息
+        text_content = """
+声明：使用该软件造成的文件损坏，作者本人一概不负责
+
+该修改器由QoZnoS制作
+部分代码由Deepseek辅助生成
+icon来自MVZ2"""
+        
+        lbl_info = ttk.Label(
+            container,
+            text=text_content,
+            justify="center",
+            wraplength=350
+        )
+        lbl_info.pack(pady=10)
+        
+        # 链接按钮容器
+        link_frame = ttk.Frame(container)
+        link_frame.pack(pady=15)
+        
+        # 创建链接按钮
+        links = [
+            ("游戏作者主页", "https://space.bilibili.com/348514"),
+            ("修改器作者主页", "https://space.bilibili.com/404359179"),
+            ("修改器源码", "https://github.com/QoZnoS/MVZ2SaveModifier")
+        ]
+        
+        for text, url in links:
+            btn = ttk.Button(
+                link_frame,
+                text=text,
+                width=12,
+                command=lambda u=url: self.open_link(u)  # 使用 lambda 绑定参数
+            )
+            btn.pack(side="top", pady=5)
+        
+    def open_link(self, url):
+        """打开外部链接"""
+        webbrowser.open_new(url)

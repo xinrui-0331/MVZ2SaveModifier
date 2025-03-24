@@ -42,7 +42,7 @@ def compress(path,file):
 class ArchiveEditor:
     def __init__(self, root):
         self.root = root
-        self.root.title("MVZ2存档修改器v0.8 by QoZnoS")
+        self.root.title("MVZ2存档修改器v1.0 by QoZnoS")
 
         self.current_file = ""  # 当前操作的文件路径
         self.current_data = None # 当前操作的文件JSON数据
@@ -51,10 +51,11 @@ class ArchiveEditor:
 
         self.data_wave = tk.StringVar(value="0")
         self.data_flag = tk.StringVar(value="0")
-        self.data_energy = tk.StringVar(value="0")
-        self.data_maxEnergy = tk.StringVar(value="0")
-        self.data_starshardCount = tk.StringVar(value="0")
-        self.data_starshardSlotCount = tk.StringVar(value="0")
+        self.data_energy = tk.StringVar(value="50")
+        self.data_maxEnergy = tk.StringVar(value="9990.0")
+        self.data_starshardCount = tk.StringVar(value="2")
+        self.data_starshardSlotCount = tk.StringVar(value="5")
+        self.data_conveyorSlotCount = tk.StringVar(value="10")
 
 
         self.get_usersdata() # 自动读取存档
@@ -178,7 +179,20 @@ class ArchiveEditor:
         tk.Label(frame_group, text="星之碎片槽：").grid(row=3, column=2, sticky="w", pady=12)
         self.numeric_starshardSlotCount_input = ttk.Entry(frame_group, state="disable", textvariable=self.data_starshardSlotCount, validate='key',validatecommand=(self.root.register(self.change_starshardSlotCount), '%d', '%i', '%P', '%s', '%v', '%V', '%W'))
         self.numeric_starshardSlotCount_input.grid(row=3, column=3, sticky="ew", pady=12)
-
+        tk.Label(frame_group, text="启用传送带：").grid(row=0, column=4, sticky="w", pady=12)
+        self.numeric_isConveyorMode_box = ttk.Combobox(frame_group,values=["是","否"],state="disable",width=16)
+        self.numeric_isConveyorMode_box.grid(row=0, column=5, sticky="ew", pady=12)
+        self.numeric_isConveyorMode_box.set("")
+        self.numeric_isConveyorMode_box.bind("<<ComboboxSelected>>",self.is_ConveyorMode)
+        tk.Label(frame_group, text="传送带槽数：").grid(row=1, column=4, sticky="w", pady=12)
+        self.numeric_conveyorSlotCount_input = ttk.Entry(frame_group, state="disable", textvariable=self.data_conveyorSlotCount, validate='key',validatecommand=(self.root.register(self.change_conveyorSlotCount), '%d', '%i', '%P', '%s', '%v', '%V', '%W'))
+        self.numeric_conveyorSlotCount_input.grid(row=1, column=5, sticky="ew", pady=12)
+        tk.Label(frame_group, text="背景音乐：").grid(row=2, column=4, sticky="w", pady=12)
+        self.numeric_musicID_box = ttk.Combobox(frame_group,values=musics_name,state="disable",width=16)
+        self.numeric_musicID_box.grid(row=2, column=5, sticky="ew", pady=12)
+        self.numeric_musicID_box.set("")
+        self.numeric_musicID_box.bind("<<ComboboxSelected>>",self.change_musicID)
+        tk.Button(frame_group, text="                   关于修改器                    ",command=self.open_about).grid(row=3,column=4,columnspan=2)
 
 
     # endregion
@@ -305,19 +319,21 @@ class ArchiveEditor:
         if value=="":
             self.current_data['level']['energy']=0
             return True
-        if value.isdigit():
-            self.current_data['level']['energy']=int(value)
+        try:
+            self.current_data['level']['energy']=float(value)  # 检查浮点数
             return True
-        return False
+        except ValueError:
+            return False
     # 机械能上限
     def change_maxEnergy(self, action, index, value, prior_value, text, validation_type, trigger_type):
         if value=="":
             self.current_data['level']['Option']['maxEnergy']=0
             return True
-        if value.isdigit():
-            self.current_data['level']['Option']['maxEnergy']=int(value)
+        try:
+            self.current_data['level']['Option']['maxEnergy']=float(value)  # 检查浮点数
             return True
-        return False
+        except ValueError:
+            return False
     # 星之碎片数
     def change_starshardCount(self, action, index, value, prior_value, text, validation_type, trigger_type):
         if value=="":
@@ -336,11 +352,29 @@ class ArchiveEditor:
             self.current_data['level']['properties']['starshardSlotCount']=int(value)
             return True
         return False
-
-
-
-
-
+    # 是否启用传送带
+    def is_ConveyorMode(self,event):
+        if self.numeric_stageDefinition_box.get()=="是":
+            self.current_data['level']['components']['mvz2:blueprints']['isConveyorMode'] = True
+            self.current_data['level']['properties']['noEnergy'] = True
+        else:
+            self.current_data['level']['components']['mvz2:blueprints']['isConveyorMode'] = False
+            self.current_data['level']['properties']['noEnergy'] = False
+    # 传送带槽数
+    def change_conveyorSlotCount(self, action, index, value, prior_value, text, validation_type, trigger_type):
+        if value=="":
+            self.current_data['level']['conveyorSlotCount']=0
+            return True
+        if value.isdigit():
+            self.current_data['level']['conveyorSlotCount']=int(value)
+            return True
+        return False
+    # 背景音乐
+    def change_musicID(self,event):
+        self.current_data['musicID'] = musics_id[musics_name.index(self.numeric_stageDefinition_box.get())]
+    # 关于
+    def open_about(self):
+        Selector.AboutWindow(self.root)
 
 
     # endregion
@@ -454,6 +488,10 @@ class ArchiveEditor:
             self.numeric_maxEnergy_input.config(state="disable")
             self.numeric_starshardCount_input.config(state="disable")
             self.numeric_starshardSlotCount_input.config(state="disable")
+            self.numeric_isConveyorMode_box.config(state="disable")
+            self.numeric_conveyorSlotCount_input.config(state="disable")
+            self.numeric_musicID_box.config(state="disable")
+            self.numeric_musicID_box.set("")
         else:
             self.numeric_stageDefinition_box.config(state="readonly")
             self.numeric_stageDefinition_box.set(maps_name[maps_id.index(self.current_data['level']['stageDefinitionID'].split("_")[0])])
@@ -471,6 +509,15 @@ class ArchiveEditor:
             self.data_starshardCount.set(self.current_data['level']['properties']['starshardCount'])
             self.numeric_starshardSlotCount_input.config(state="normal")
             self.data_starshardSlotCount.set(self.current_data['level']['properties']['starshardSlotCount'])
+            self.numeric_isConveyorMode_box.config(state="readonly")
+            if self.current_data['level']['components']['mvz2:blueprints']['isConveyorMode']:
+                self.numeric_isConveyorMode_box.set("是")
+            else:
+                self.numeric_isConveyorMode_box.set("否")
+            self.numeric_conveyorSlotCount_input.config(state="normal")
+            self.data_conveyorSlotCount.set(self.current_data['level']['conveyorSlotCount'])
+            self.numeric_musicID_box.config(state="normal")
+            self.numeric_musicID_box.set(musics_name[musics_id.index(self.current_data['musicID'])])
 
 if __name__ == "__main__":
     # messagebox.showinfo("免责声明",f"使用该软件造成的文件损坏，本人一概不负责")
