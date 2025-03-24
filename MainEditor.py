@@ -11,7 +11,8 @@ artifact_name = ["图鉴","锄头","梦境钥匙","怪物的心","安眠枕","�
 artifact_id = ["mvz2:almanac","mvz2:hoe","mvz2:dream_key","mvz2:the_creatures_heart","mvz2:sweet_sleep_pillow","mvz2:pagoda_branch","mvz2:dream_butterfly","mvz2:dark_matter","mvz2:smart_phone","mvz2:inverted_mirror","mvz2:miracle_mallet_replica","mvz2:wither_skeleton_skull","mvz2:nether_star","mvz2:broken_lantern"]
 blueprint_name = ["发射器", "熔炉", "黑曜石", "地雷TNT", "小型发射器", "月光传感器", "荧石", "冲击活塞", "TNT", "灵魂熔炉", "银质发射器", "魔术箱", "睡莲", "驱动发射器", "重力板", "漩涡漏斗", "活塞发射器", "图腾发射器", "梦境结晶", "美梦丝", "木制投掷器", "尖刺方块", "石制投掷器", "石护罩", "金苹果", "雷鼓", "磁暴线圈", "巨碗", "传染发射器", "传动力板", "金制投掷器", "钻石尖刺", "铁砧", "随机瓷器", "僵尸", "皮帽僵尸", "铁盔僵尸", "旗帜僵尸", "骷髅", "石像鬼", "幽灵", "木乃伊", "死灵法师", "蜘蛛", "洞穴蜘蛛", "恶魂", "恐怖之母", "恐怖寄生虫", "催眠者", "狂战士", "无头骑士", "地狱战车", "灵魂沙王", "突变僵尸", "超级突变僵尸", "小鬼僵尸", "骨墙", "小幽灵", "反则卫星", "骷髅马", "无头骑士的头", "灵魂沙", "正邪的诅咒人偶", "床战士", "石像鬼雕像", "科学怪人的怪物", "瘦长鬼影", "梦魇收割者", "鬼人正邪", "凋灵", "矿车", "南瓜马车", "彩虹猫", "噩梦猫", "碗车", "红石", "绿宝石", "红宝石", "蓝宝石", "钻石", "通关掉落物", "制品掉落物", "星之碎片", "arrow", "mine_tnt_seed", "snowball", "large_snowball", "flying_tnt", "soulfire_ball", "knife", "bullet", "missile", "fire_charge", "large_arrow", "spike", "spike_ball", "diamond_caltrop", "dart", "poison_javelin", "parabot", "breakout_pearl", "wooden_ball", "cobble", "boulder", "golden_ball", "compelling_orb", "seija_magic_bomb", "seija_bullet", "wither_skull", "miner", "mine_debris", "fragment", "star_particles", "gem_effect", "smoke", "broken_armor", "thunder_bolt", "evocation_star", "shine_ring", "stun_stars", "stunning_flash", "explosion", "soulfire", "soulfire_burn", "soulfire_blast", "mummy_gas", "burning_gas", "heal_particles", "bone_particles", "blood_particles", "smoke_cluster", "rain", "electric_arc", "gore_particles", "frankenstein_jump_trail", "frankenstein_head", "splash_particles", "gear_particles", "pow", "vortex", "giant_spike", "fire_breath", "weakness_gas", "magnetic_line", "hoe", "breakout_board", "nightmare_watching_eye", "nightmare_portal", "dark_matter_particles", "nightmareaper_splash", "nightmareaper_shadow", "slice_spark", "梦魇碾压墙", "nightmareaper_timer", "floating_text", "nightmare_darkness", "nightmare_glass", "spike_particles", "diamond_spike_particles", "mind_control_lines", "mutant_zombie_weapon", "water_lightning_particles", "thunder_cloud", "magic_bomb_explosion", "seija_camera_frame", "seija_faint_effect", "wither_summoners", "castle_twilight"]
 blueprint_id = ["mvz2:dispenser", "mvz2:furnace", "mvz2:obsidian", "mvz2:mine_tnt", "mvz2:small_dispenser", "mvz2:moonlight_sensor", "mvz2:glowstone", "mvz2:punchton", "mvz2:tnt", "mvz2:soul_furnace", "mvz2:silvenser", "mvz2:magichest", "mvz2:lily_pad", "mvz2:drivenser", "mvz2:gravity_pad", "mvz2:vortex_hopper", "mvz2:pistenser", "mvz2:totenser", "mvz2:dream_crystal", "mvz2:dream_silk", "mvz2:wooden_dropper", "mvz2:spike_block", "mvz2:stone_dropper", "mvz2:stone_shield", "mvz2:golden_apple", "mvz2:thunder_drum", "mvz2:tesla_coil", "mvz2:giant_bowl", "mvz2:infectenser", "mvz2:force_pad", "mvz2:golden_dropper", "mvz2:diamond_spikes", "mvz2:anvil", "mvz2:random_china", "mvz2:zombie", "mvz2:leather_capped_zombie", "mvz2:iron_helmetted_zombie", "mvz2:flag_zombie", "mvz2:skeleton", "mvz2:gargoyle", "mvz2:ghost", "mvz2:mummy", "mvz2:necromancer", "mvz2:spider", "mvz2:cave_spider", "mvz2:ghast", "mvz2:mother_terror", "mvz2:parasite_terror", "mvz2:mesmerizer", "mvz2:berserker", "mvz2:dullahan", "mvz2:hell_chariot", "mvz2:anubisand", "mvz2:mutant_zombie", "mvz2:mega_mutant_zombie", "mvz2:imp", "mvz2:bone_wall", "mvz2:napstablook", "mvz2:reverse_satellite", "mvz2:skeleton_horse", "mvz2:dullahan_head", "mvz2:soulsand", "mvz2:seija_cursed_doll", "mvz2:bedserker", "mvz2:gargoyle_statue", "mvz2:frankenstein", "mvz2:slenderman", "mvz2:nightmareaper", "mvz2:seija", "mvz2:wither", "mvz2:minecart", "mvz2:pumpkin_carriage", "mvz2:nyan_cat", "mvz2:nyaightmare", "mvz2:bowl_chariot", "mvz2:redstone", "mvz2:emerald", "mvz2:ruby", "mvz2:sapphire", "mvz2:diamond", "mvz2:clear_pickup", "mvz2:artifact_pickup", "mvz2:starshard", "mvz2:arrow", "mvz2:mine_tnt_seed", "mvz2:snowball", "mvz2:large_snowball", "mvz2:flying_tnt", "mvz2:soulfire_ball", "mvz2:knife", "mvz2:bullet", "mvz2:missile", "mvz2:fire_charge", "mvz2:large_arrow", "mvz2:spike", "mvz2:spike_ball", "mvz2:diamond_caltrop", "mvz2:dart", "mvz2:poison_javelin", "mvz2:parabot", "mvz2:breakout_pearl", "mvz2:wooden_ball", "mvz2:cobble", "mvz2:boulder", "mvz2:golden_ball", "mvz2:compelling_orb", "mvz2:seija_magic_bomb", "mvz2:seija_bullet", "mvz2:wither_skull", "mvz2:miner", "mvz2:mine_debris", "mvz2:fragment", "mvz2:star_particles", "mvz2:gem_effect", "mvz2:smoke", "mvz2:broken_armor", "mvz2:thunder_bolt", "mvz2:evocation_star", "mvz2:shine_ring", "mvz2:stun_stars", "mvz2:stunning_flash", "mvz2:explosion", "mvz2:soulfire", "mvz2:soulfire_burn", "mvz2:soulfire_blast", "mvz2:mummy_gas", "mvz2:burning_gas", "mvz2:heal_particles", "mvz2:bone_particles", "mvz2:blood_particles", "mvz2:smoke_cluster", "mvz2:rain", "mvz2:electric_arc", "mvz2:gore_particles", "mvz2:frankenstein_jump_trail", "mvz2:frankenstein_head", "mvz2:splash_particles", "mvz2:gear_particles", "mvz2:pow", "mvz2:vortex", "mvz2:giant_spike", "mvz2:fire_breath", "mvz2:weakness_gas", "mvz2:magnetic_line", "mvz2:hoe", "mvz2:breakout_board", "mvz2:nightmare_watching_eye", "mvz2:nightmare_portal", "mvz2:dark_matter_particles", "mvz2:nightmareaper_splash", "mvz2:nightmareaper_shadow", "mvz2:slice_spark", "mvz2:crushing_walls", "mvz2:nightmareaper_timer", "mvz2:floating_text", "mvz2:nightmare_darkness", "mvz2:nightmare_glass", "mvz2:spike_particles", "mvz2:diamond_spike_particles", "mvz2:mind_control_lines", "mvz2:mutant_zombie_weapon", "mvz2:water_lightning_particles", "mvz2:thunder_cloud", "mvz2:magic_bomb_explosion", "mvz2:seija_camera_frame", "mvz2:seija_faint_effect", "mvz2:wither_summoners", "mvz2:castle_twilight"]
-
+musics_name = ['疯狂戴夫', '选择你的种子', '草地行走', '莱克死灵之书-关卡', '莱克死灵之书-地图', '狂人的愉悦', '终极之战', '莱克死灵之书-首领', '破碎的童话-关卡', '破碎的童话-地图', '悬念', '以撒的结合', '忏悔', '飞翔于宇宙的不可思议巫女', 'Pandemonic Planet（前段）', 'Pandemonic Planet（后段）', '青空之影', '记忆的回响', '沉默空洞的辉针城', '凋灵舞曲', '有只僵尸在你的手机里', 'Reverse Ideology', '针折线断的天守阁', '辉光之针的小人族 ~ Little Princess', '惊疑星球-首领']
+musics_id = ['mvz2:mainmenu', 'mvz2:choosing', 'mvz2:day', 'mvz2:halloween', 'mvz2:halloween_map', 'mvz2:minigame', 'mvz2:ultimate_battle', 'mvz2:halloween_boss', 'mvz2:dream_level', 'mvz2:dream_map', 'mvz2:suspension', 'mvz2:nightmare_map', 'mvz2:nightmare_level', 'mvz2:nightmare_final', 'mvz2:nightmare_boss', 'mvz2:nightmare_boss2', 'mvz2:gensokyo_map', 'mvz2:distress', 'mvz2:castle_map', 'mvz2:castle_level', 'mvz2:phone_ring', 'mvz2:seija', 'mvz2:sad_shinmyoumaru', 'mvz2:castle_final', 'mvz2:wither_boss']
 
 #region 全局函数
 def get_save_path():
@@ -46,31 +47,40 @@ class ArchiveEditor:
         self.current_file = ""  # 当前操作的文件路径
         self.current_data = None # 当前操作的文件JSON数据
         self.data_artifact = None # 制品
+        self.page = 1 # 界面，0为数值编辑器，1为蓝图/制品编辑器
 
         self.get_usersdata() # 自动读取存档
         self.setup_ui() # 创建UI
+        self.switch_frame()
  
     # region 创建UI
     def setup_ui(self):
         self.setup_user_frame()
         self.setup_file_frame()
         self.frame_tree = tk.Frame(self.root)
-        self.frame_tree.pack(padx=10, fill=tk.BOTH, expand=True)
-        self.setup_artifact_frame()
-        self.setup_blueprint_frame()
+        self.frame_numeric = tk.Frame(self.root)
+        self.setup_tree_artifact_frame()
+        self.setup_tree_blueprint_frame()
+        self.setup_numeric_group_frame()
 
         # JSON 编辑区
         # self.text_editor = scrolledtext.ScrolledText(self.root, width=60, height=20)
         # self.text_editor.pack(pady=10, padx=10)
 
-        # 保存
-        self.output_btn=tk.Button(self.root, text="保存文件",command=self.output_file,state="disabled")
-        self.output_btn.pack(fill=tk.X)
-
         # 状态栏
         self.status = tk.StringVar()
         self.status.set("就绪")
-        tk.Label(self.root, textvariable=self.status, bd=1, relief=tk.SUNKEN, anchor=tk.W).pack(fill=tk.X)
+        tk.Label(self.root, textvariable=self.status, bd=1, relief=tk.SUNKEN, anchor=tk.W).pack(fill=tk.X,side=tk.BOTTOM)
+
+        # 保存
+        self.output_btn=tk.Button(self.root, text="保存文件",command=self.output_file,state="disabled")
+        self.output_btn.pack(fill=tk.X,side=tk.BOTTOM)
+    # 创建制品/蓝图修改器UI
+    def setup_tree_frame(self):
+        self.frame_tree.pack(padx=10, fill=tk.BOTH, expand=True)
+    # 创建数值修改器UI
+    def setup_numeric_frame(self):
+        self.frame_numeric.pack(padx=10, fill=tk.BOTH, expand=True)
 
     def setup_user_frame(self):
         """选择用户，单文件解压缩"""
@@ -83,53 +93,45 @@ class ArchiveEditor:
         tk.Button(self.frame_user, text="压缩 (.json → .dat)", command=self.compress).pack(side=tk.LEFT, padx=5)
 
     def setup_file_frame(self):
-        """存档选择，混乱"""
+        """存档选择，切换界面"""
         self.frame_file = tk.Frame(self.root)
         self.frame_file.pack(pady=10)
         self.filename_label = tk.Label(self.frame_file, text="当前文件：未选择")
         self.filename_label.pack(side=tk.LEFT)
         tk.Button(self.frame_file, text="选择文件", command=self.open_save_selector).pack(side=tk.LEFT, padx=10)
-
+        tk.Button(self.frame_file, text="切换界面", command=self.switch_frame).pack(side=tk.LEFT, padx=10)
         # 混乱选项
-        self.stageDefinition_box = ttk.Combobox(self.frame_file,values=maps_name,state="disable",width=10)
-        self.stageDefinition_box.pack(side=tk.LEFT,padx=10)
-        self.stageDefinition_box.set("未选择文件")
-        self.stageDefinition_box.bind("<<ComboboxSelected>>",self.mix_stageDefinitionID)
-        self.stageDefinitionID_box = ttk.Combobox(self.frame_file,values=level,state="disable",width=8)
-        self.stageDefinitionID_box.pack(side=tk.LEFT,padx=2)
-        self.stageDefinitionID_box.set("")
-        self.stageDefinitionID_box.bind("<<ComboboxSelected>>",self.mix_stageDefinitionID)
         
-    def setup_artifact_frame(self):
+    def setup_tree_artifact_frame(self):
         """制品"""
-        self.frame_artifact = tk.Frame(self.frame_tree)
-        self.frame_artifact.pack(side=tk.LEFT, padx=10, expand=True)
+        frame_artifact = tk.Frame(self.frame_tree)
+        frame_artifact.pack(side=tk.LEFT, padx=10, expand=True)
         # 制品列表
-        self.artifact_tree = ttk.Treeview(self.frame_artifact,columns=("id","name"),show="headings",selectmode="browse")
+        self.artifact_tree = ttk.Treeview(frame_artifact,columns=("id","name"),show="headings",selectmode="browse")
         self.artifact_tree.heading("id",text="ID")
         self.artifact_tree.column("id",width=28)
         self.artifact_tree.heading("name",text="制品名称")
         self.artifact_tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=5, pady=5)
         # 相关控件
-        artifact_control_frame = tk.Frame(self.frame_artifact)
+        artifact_control_frame = tk.Frame(frame_artifact)
         artifact_control_frame.pack(side=tk.RIGHT, padx=10)
         self.artifact_box = ttk.Combobox(artifact_control_frame, values=artifact_name, state="disabled", width=10)
         self.artifact_box.pack(pady=(0, 12))
         tk.Button(artifact_control_frame, text="添加", width=8, command=self.add_artifact).pack(fill=tk.X, pady=12)
         tk.Button(artifact_control_frame, text="删除", width=8, command=self.remove_artifact).pack(fill=tk.X, pady=12)
 
-    def setup_blueprint_frame(self):
+    def setup_tree_blueprint_frame(self):
         """蓝图"""
-        self.frame_blueprint = tk.Frame(self.frame_tree)
-        self.frame_blueprint.pack(side=tk.LEFT, padx=10, expand=True)
+        frame_blueprint = tk.Frame(self.frame_tree)
+        frame_blueprint.pack(side=tk.LEFT, padx=10, expand=True)
         # 蓝图列表
-        self.blueprint_tree = ttk.Treeview(self.frame_blueprint,columns=("id","name"),show="headings",selectmode="browse")
+        self.blueprint_tree = ttk.Treeview(frame_blueprint,columns=("id","name"),show="headings",selectmode="browse")
         self.blueprint_tree.heading("id",text="ID")
         self.blueprint_tree.column("id",width=28)
         self.blueprint_tree.heading("name",text="蓝图名称")
         self.blueprint_tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=5, pady=5)
         # 相关控件
-        blueprint_control_frame = tk.Frame(self.frame_blueprint)
+        blueprint_control_frame = tk.Frame(frame_blueprint)
         blueprint_control_frame.pack(side=tk.RIGHT, padx=10)
         self.blueprint_box = ttk.Combobox(blueprint_control_frame, values=blueprint_name, state="disabled", width=20)
         self.blueprint_box.pack(pady=(0, 12))
@@ -137,9 +139,24 @@ class ArchiveEditor:
         tk.Button(blueprint_control_frame, text="修改", width=8, command=self.modify_blueprint).pack(fill=tk.X, pady=12)
         # tk.Button(blueprint_control_frame, text="删除", width=8).pack(fill=tk.X, pady=12)
 
+    def setup_numeric_group_frame(self):
+        frame_line = tk.Frame(self.frame_numeric)
+        frame_line.pack(side=tk.LEFT, padx=10, expand=True)
+        tk.Label(frame_line, text="章节：").grid(row=0, column=0, sticky="w", pady=12)
+        self.stageDefinition_box = ttk.Combobox(frame_line,values=maps_name,state="disable",width=16)
+        self.stageDefinition_box.grid(row=0, column=1, sticky="ew", pady=12)
+        self.stageDefinition_box.set("")
+        self.stageDefinition_box.bind("<<ComboboxSelected>>",self.mix_stageDefinitionID)
+        tk.Label(frame_line, text="关卡：").grid(row=1, column=0, sticky="w", pady=12)
+        self.stageDefinitionID_box = ttk.Combobox(frame_line,values=level,state="disable",width=16)
+        self.stageDefinitionID_box.grid(row=1, column=1, sticky="ew", pady=12)
+        self.stageDefinitionID_box.set("")
+        self.stageDefinitionID_box.bind("<<ComboboxSelected>>",self.mix_stageDefinitionID)
+
     # endregion
 
     # region 响应回调
+    # region 窗口
     # 处理文件窗口
     def open_save_selector(self):
         """打开存档选择窗口"""
@@ -174,16 +191,8 @@ class ArchiveEditor:
         self.currentUserIndex = selected_user
         self.username = self.users['metas'][self.currentUserIndex]['username']
         self.username_label.config(text="当前用户：" + self.username)
-    # 混乱
-    def mix_stageDefinitionID(self,event):
-        """处理混乱"""
-        self.current_data['level']['stageDefinitionID'] = maps_id[maps_name.index(self.stageDefinition_box.get())] + "_" + self.stageDefinitionID_box.get()
-    # 保存文件
-    def output_file(self):
-        save_dir=get_save_path() + "/user%d/mvz2/level/"%(self.currentUserIndex) + os.path.basename(self.current_file)
-        output=json.dumps(self.current_data,cls=CustonJson.CustomEncoder).encode("utf-8")
-        self.status.set("已保存到：" + save_dir)
-        compress(save_dir,output)
+    # endregion
+    # region tree_frame
     # 添加制品
     def add_artifact(self):
         if not self.artifact_box.get():
@@ -239,6 +248,31 @@ class ArchiveEditor:
         self.refresh_blueprint()
     # 移除蓝图
 
+    # endregion
+    # region numeric_frame
+    # 混乱
+    def mix_stageDefinitionID(self,event):
+        """处理混乱"""
+        self.current_data['level']['stageDefinitionID'] = maps_id[maps_name.index(self.stageDefinition_box.get())] + "_" + self.stageDefinitionID_box.get()
+
+    # endregion
+    # 保存文件
+    def output_file(self):
+        save_dir=get_save_path() + "/user%d/mvz2/level/"%(self.currentUserIndex) + os.path.basename(self.current_file)
+        output=json.dumps(self.current_data,cls=CustonJson.CustomEncoder).encode("utf-8")
+        self.status.set("已保存到：" + save_dir)
+        compress(save_dir,output)
+    # 切换界面
+    def switch_frame(self):
+        if self.page:
+            self.page=0
+            self.frame_tree.pack_forget()
+            self.setup_numeric_frame()
+        else:
+            self.page=1
+            self.frame_numeric.pack_forget()
+            self.setup_tree_frame()
+            self.refresh()
     #endregion
 
     # region 工具
@@ -287,22 +321,14 @@ class ArchiveEditor:
     def refresh(self):
         """刷新界面"""
         if not self.current_data:
-            self.stageDefinition_box.config(state="disabled")
-            self.stageDefinition_box.set("未选择文件")
-            self.stageDefinitionID_box.config(state="disabled")
-            self.stageDefinitionID_box.set("")
             self.artifact_box.config(state="disabled")
             self.artifact_box.set("")
             self.blueprint_box.config(state="disabled")
             self.blueprint_box.set("")
+
             self.filename_label.config(text="当前存档：未选择")
-            
             self.output_btn.config(state="disabled")
         else:
-            self.stageDefinition_box.config(state="readonly")
-            self.stageDefinition_box.set(maps_name[maps_id.index(self.current_data['level']['stageDefinitionID'].split("_")[0])])
-            self.stageDefinitionID_box.config(state="readonly")
-            self.stageDefinitionID_box.set(self.current_data['level']['stageDefinitionID'].split("_")[1])
             self.artifact_box.config(state="readonly")
             self.artifact_box.set("图鉴")
             self.blueprint_box.config(state="readonly")
@@ -311,6 +337,7 @@ class ArchiveEditor:
             self.output_btn.config(state="normal")
             self.refresh_artifact()
             self.refresh_blueprint()
+            self.refresh_numeric()
 
     def refresh_artifact(self):
         """刷新制品列表"""
@@ -327,7 +354,17 @@ class ArchiveEditor:
             if data_blueprint[i]:
                 self.blueprint_tree.insert("", "end", values=(i, blueprint_name[blueprint_id.index(data_blueprint[i]['seedID'])]))
 
-
+    def refresh_numeric(self):
+        if not self.current_data:
+            self.stageDefinition_box.config(state="disabled")
+            self.stageDefinition_box.set("")
+            self.stageDefinitionID_box.config(state="disabled")
+            self.stageDefinitionID_box.set("")
+        else:
+            self.stageDefinition_box.config(state="readonly")
+            self.stageDefinition_box.set(maps_name[maps_id.index(self.current_data['level']['stageDefinitionID'].split("_")[0])])
+            self.stageDefinitionID_box.config(state="readonly")
+            self.stageDefinitionID_box.set(self.current_data['level']['stageDefinitionID'].split("_")[1])
 
 
 if __name__ == "__main__":
