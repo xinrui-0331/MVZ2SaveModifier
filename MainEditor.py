@@ -42,7 +42,7 @@ def compress(path,file):
 class ArchiveEditor:
     def __init__(self, root):
         self.root = root
-        self.root.title("MVZ2存档修改器v1.0 by QoZnoS")
+        self.root.title("MVZ2存档修改器v1.1 by QoZnoS")
 
         self.current_file = ""  # 当前操作的文件路径
         self.current_data = None # 当前操作的文件JSON数据
@@ -466,7 +466,8 @@ class ArchiveEditor:
         data_artifact = self.current_data['level']['components']['mvz2:artifact']['artifacts']['artifacts']
         self.artifact_tree.delete(*self.artifact_tree.get_children())
         for i in range(len(data_artifact)):
-            self.artifact_tree.insert("", "end", values=(i, artifact_name[artifact_id.index(data_artifact[i]['definitionID'])]))
+            if data_artifact[i]:
+                self.artifact_tree.insert("", "end", values=(i, artifact_name[artifact_id.index(data_artifact[i]['definitionID'])]))
 
     def refresh_blueprint(self):
         """刷新蓝图列表"""
@@ -506,6 +507,8 @@ class ArchiveEditor:
             self.numeric_maxEnergy_input.config(state="normal")
             self.data_maxEnergy.set(self.current_data['level']['Option']['maxEnergy'])
             self.numeric_starshardCount_input.config(state="normal")
+            if not ('starshardCount' in self.current_data['level']['properties']):
+                self.current_data['level']['properties']['starshardCount']=0
             self.data_starshardCount.set(self.current_data['level']['properties']['starshardCount'])
             self.numeric_starshardSlotCount_input.config(state="normal")
             self.data_starshardSlotCount.set(self.current_data['level']['properties']['starshardSlotCount'])
@@ -516,7 +519,7 @@ class ArchiveEditor:
                 self.numeric_isConveyorMode_box.set("否")
             self.numeric_conveyorSlotCount_input.config(state="normal")
             self.data_conveyorSlotCount.set(self.current_data['level']['conveyorSlotCount'])
-            self.numeric_musicID_box.config(state="normal")
+            self.numeric_musicID_box.config(state="readonly")
             self.numeric_musicID_box.set(musics_name[musics_id.index(self.current_data['musicID'])])
 
 if __name__ == "__main__":
