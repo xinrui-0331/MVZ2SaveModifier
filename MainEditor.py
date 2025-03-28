@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox, scrolledtext, ttk
-import gzip,shutil,os,json,winreg
+import gzip,shutil,os,json,winreg,subprocess
 import platform
 import CustonJson,Selector
 
@@ -26,10 +26,10 @@ musics_name_en = ["Crazy Dave", "Choose Your Seeds", "Grasswalk", "Lexonomicon L
 musics_name = None
 musics_id = ['mvz2:mainmenu', 'mvz2:choosing', 'mvz2:day', 'mvz2:halloween', 'mvz2:halloween_map', 'mvz2:minigame', 'mvz2:ultimate_battle', 'mvz2:halloween_boss', 'mvz2:dream_level', 'mvz2:dream_map', 'mvz2:suspension', 'mvz2:nightmare_map', 'mvz2:nightmare_level', 'mvz2:nightmare_final', 'mvz2:nightmare_boss', 'mvz2:nightmare_boss2', 'mvz2:gensokyo_map', 'mvz2:distress', 'mvz2:castle_map', 'mvz2:castle_level', 'mvz2:phone_ring', 'mvz2:seija', 'mvz2:sad_shinmyoumaru', 'mvz2:castle_final', 'mvz2:wither_boss']
 
-text_name_zh = ["MVZ2存档修改器 v1.2 by QoZnoS", "就绪", "保存文件", "当前用户：", "切换", "解压 (.dat/.lvl → .json)", "压缩 (.json → .lvl)", "当前文件：未选择", "选择文件", "切换界面", "制品名称", "添加", "删除", "蓝图名称", "修改", "当前文件：", "章节：", "关卡：", "旗数：", "波数：", "当前机械能：", "机械能上限：", "星之碎片数：", "星之碎片槽：", "启用传送带：", "传送带槽数：", "背景音乐：", "关于修改器", "是", "否", "已保存到："]
-text_name_en = ["MVZ2SaveModifier v1.2 by QoZnoS", "Ready", "Execute the modification", "current user: ", "switch", "Decompress(.dat/.lvl → .json)", "Compress(.json → .lvl)", "current level: empty", "Select level file", "Another page", "Artifact name", "Add", "Delete", "Blueprint name", "Modify", "current level: ", "Chapter: ", "Day: ", "Flag: ", "Wave: ", "Energy: ", "maxEnergy: ", "Starshard: ", "maxStarshard: ", "ConveyorMode: ", "ConveyorSlot: ", "BGM: ", "About SaveModifier", "True", "False", "Save to: "]
+text_name_zh = ["MVZ2存档修改器 v1.2 by QoZnoS", "就绪", "保存文件", "当前用户：", "切换", "解压 (.dat/.lvl → .json)", "压缩 (.json → .lvl)", "当前文件：未选择", "选择文件", "切换界面", "制品名称", "添加", "删除", "蓝图名称", "修改", "当前文件：", "章节：", "关卡：", "旗数：", "波数：", "当前机械能：", "机械能上限：", "星之碎片数：", "星之碎片槽：", "启用传送带：", "传送带槽数：", "背景音乐：", "关于修改器", "是", "否", "已保存到：", "打开存档文件夹"]
+text_name_en = ["MVZ2SaveModifier v1.2 by QoZnoS", "Ready", "Execute the modification", "current user: ", "switch", "Decompress(.dat/.lvl → .json)", "Compress(.json → .lvl)", "current level: empty", "Select level file", "Another page", "Artifact name", "Add", "Delete", "Blueprint name", "Modify", "current level: ", "Chapter: ", "Day: ", "Flag: ", "Wave: ", "Energy: ", "maxEnergy: ", "Starshard: ", "maxStarshard: ", "ConveyorMode: ", "ConveyorSlot: ", "BGM: ", "About SaveModifier", "True", "False", "Save to: ", "View in Explorer"]
 text_name = None
-text_id = ["title","status_ready","btn_save","label_user","btn_switch","btn_unzip","btn_zip","label_lvl_null","btn_lvl","btn_page","tree_artifact","btn_add","btn_delete","tree_blueprint","btn_modify","label_lvl","label_chapter","label_day","label_flag","label_wave","label_energy","label_maxEnergy","label_starshard","label_maxStarshard","label_conveyor","label_conveyorslot","label_bgm","btn_about","True","False","status_save"]
+text_id = ["title","status_ready","btn_save","label_user","btn_switch","btn_unzip","btn_zip","label_lvl_null","btn_lvl","btn_page","tree_artifact","btn_add","btn_delete","tree_blueprint","btn_modify","label_lvl","label_chapter","label_day","label_flag","label_wave","label_energy","label_maxEnergy","label_starshard","label_maxStarshard","label_conveyor","label_conveyorslot","label_bgm","btn_about","True","False","status_save","btn_open_explorer"]
 
 #region 全局函数
 def get_save_path():
@@ -172,6 +172,7 @@ class ArchiveEditor:
         self.filename_label = tk.Label(self.frame_file, text=get_text("label_lvl_null"))
         self.filename_label.pack(side=tk.LEFT)
         tk.Button(self.frame_file, text=get_text("btn_lvl"), command=self.open_save_selector).pack(side=tk.LEFT, padx=10)
+        tk.Button(self.frame_file, text=get_text("btn_open_explorer"), command=self.open_save_explorer).pack(side=tk.LEFT, padx=10)
         tk.Button(self.frame_file, text=get_text("btn_page"), command=self.switch_frame).pack(side=tk.LEFT, padx=10)
         # 混乱选项
         
@@ -257,7 +258,6 @@ class ArchiveEditor:
         self.numeric_musicID_box.set("")
         self.numeric_musicID_box.bind("<<ComboboxSelected>>",self.change_musicID)
         tk.Button(frame_group, text=get_text("btn_about"),command=self.open_about).grid(row=3,column=4,columnspan=2,ipadx=32)
-
 
     # endregion
 
@@ -473,6 +473,10 @@ class ArchiveEditor:
             self.frame_numeric.pack_forget()
             self.setup_tree_frame()
             self.refresh()
+    # 打开存档文件夹
+    def open_save_explorer(self):
+        save_dir=get_save_path() + ("/user%d/mvz2/level"%(self.currentUserIndex))
+        subprocess.run(f'explorer "{os.path.normpath(save_dir)}"', shell=True)
     #endregion
 
     # region 工具
@@ -517,7 +521,7 @@ class ArchiveEditor:
 
     # endregion
 
-    # 刷新
+    # region 刷新
     def refresh(self):
         """刷新界面"""
         if not self.current_data:
@@ -599,6 +603,7 @@ class ArchiveEditor:
             self.data_conveyorSlotCount.set(self.current_data['level']['conveyorSlotCount'])
             self.numeric_musicID_box.config(state="readonly")
             self.numeric_musicID_box.set(musics_name[musics_id.index(self.current_data['musicID'])])
+    # endregion
 
 if __name__ == "__main__":
     # messagebox.showinfo("免责声明",f"使用该软件造成的文件损坏，本人一概不负责")
