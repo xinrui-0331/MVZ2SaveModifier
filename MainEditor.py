@@ -26,10 +26,10 @@ musics_name_en = ["Crazy Dave", "Choose Your Seeds", "Grasswalk", "Lexonomicon L
 musics_name = None
 musics_id = ['mvz2:mainmenu', 'mvz2:choosing', 'mvz2:day', 'mvz2:halloween', 'mvz2:halloween_map', 'mvz2:minigame', 'mvz2:ultimate_battle', 'mvz2:halloween_boss', 'mvz2:dream_level', 'mvz2:dream_map', 'mvz2:suspension', 'mvz2:nightmare_map', 'mvz2:nightmare_level', 'mvz2:nightmare_final', 'mvz2:nightmare_boss', 'mvz2:nightmare_boss2', 'mvz2:gensokyo_map', 'mvz2:distress', 'mvz2:castle_map', 'mvz2:castle_level', 'mvz2:phone_ring', 'mvz2:seija', 'mvz2:sad_shinmyoumaru', 'mvz2:castle_final', 'mvz2:wither_boss']
 
-text_name_zh = ["MVZ2存档修改器 v1.1 by QoZnoS", "就绪", "保存文件", "当前用户：", "切换"]
-text_name_en = ["MVZ2SaveModifier v1.1 by QoZnoS", "Ready", "Execute the modification", "current user: ", "switch"]
+text_name_zh = ["MVZ2存档修改器 v1.2 by QoZnoS", "就绪", "保存文件", "当前用户：", "切换", "解压 (.dat/.lvl → .json)", "压缩 (.json → .lvl)", "当前文件：未选择", "选择文件", "切换界面", "制品名称", "添加", "删除", "蓝图名称", "修改", "当前文件：", "章节：", "关卡：", "旗数：", "波数：", "当前机械能：", "机械能上限：", "星之碎片数：", "星之碎片槽：", "启用传送带：", "传送带槽数：", "背景音乐：", "关于修改器", "是", "否", "已保存到："]
+text_name_en = ["MVZ2SaveModifier v1.2 by QoZnoS", "Ready", "Execute the modification", "current user: ", "switch", "Decompress(.dat/.lvl → .json)", "Compress(.json → .lvl)", "current level: empty", "Select level file", "Another page", "Artifact name", "Add", "Delete", "Blueprint name", "Modify", "current level: ", "Chapter: ", "Day: ", "Flag: ", "Wave: ", "Energy: ", "maxEnergy: ", "Starshard: ", "maxStarshard: ", "ConveyorMode: ", "ConveyorSlot: ", "BGM: ", "About SaveModifier", "True", "False", "Save to: "]
 text_name = None
-text_id = ["title","status_ready","btn_save","label_user","btn_switch"]
+text_id = ["title","status_ready","btn_save","label_user","btn_switch","btn_unzip","btn_zip","label_lvl_null","btn_lvl","btn_page","tree_artifact","btn_add","btn_delete","tree_blueprint","btn_modify","label_lvl","label_chapter","label_day","label_flag","label_wave","label_energy","label_maxEnergy","label_starshard","label_maxStarshard","label_conveyor","label_conveyorslot","label_bgm","btn_about","True","False","status_save"]
 
 #region 全局函数
 def get_save_path():
@@ -43,20 +43,21 @@ def get_save_path():
         return os.path.expanduser("~/.config/unity3d/Cuerzor/MinecraftVSZombies2/userdata")
 
 def get_language():
-    global maps_name
-    key_path = r"Software\Cuerzor\MinecraftVSZombies2"  # 要读取的子键路径
+    key_path = r"Software\\Cuerzor\\MinecraftVSZombies2"
 
-    try:
-        key = winreg.OpenKey(
-            winreg.HKEY_CURRENT_USER,  # 根键
-            key_path,                  # 子键路径
-            0,                         # 访问权限（0为默认只读）
-            winreg.KEY_READ            # 明确要求读取权限
-        )
-        value_data = winreg.QueryValueEx(key, "Language_h3872303031")[0]
-    except FileNotFoundError:
-        choose_language()
-        return
+    key = winreg.OpenKey(winreg.HKEY_CURRENT_USER,key_path,0,winreg.KEY_READ)
+    i = 0
+    while True:
+        try:
+            name, value, _ = winreg.EnumValue(key, i)
+            if name.startswith("Language"):
+                value_data=value
+                break
+            i+=1
+        except OSError:
+            break
+    winreg.CloseKey(key)
+
     if value_data == b'en-US\x00':
         set_language(False)
     elif value_data == b'zh-Hans\x00':
@@ -80,8 +81,7 @@ def set_language(is_zh):
         text_name = text_name_en
 
 def choose_language():
-    print("选择语言")
-    set_language(True)
+    Selector.LanguageSelector(on_select=set_language)
 
 def get_text(id):
     """获取文本"""
@@ -95,7 +95,7 @@ def decompress(path):
         with gzip.open(path, "rb") as file:
             return file.read()
     except Exception as e:
-        messagebox.showerror("错误", f"解压失败: {str(e)}")
+        messagebox.showerror("Error", f"Failed to decompress: {str(e)}")
 
 def compress(path,file):
     '''压缩文件到给定路径'''
@@ -162,17 +162,17 @@ class ArchiveEditor:
         self.username_label = tk.Label(self.frame_user, text=get_text("label_user") + self.username)
         self.username_label.pack(side=tk.LEFT)
         tk.Button(self.frame_user, text=get_text("btn_switch"), command=self.open_user_selector).pack(side=tk.LEFT, padx=5)
-        tk.Button(self.frame_user, text="解压 (.dat/.lvl → .json)", command=self.decompress).pack(side=tk.LEFT, padx=10)
-        tk.Button(self.frame_user, text="压缩 (.json → .dat)", command=self.compress).pack(side=tk.LEFT, padx=5)
+        tk.Button(self.frame_user, text=get_text("btn_unzip"), command=self.decompress).pack(side=tk.LEFT, padx=10)
+        tk.Button(self.frame_user, text=get_text("btn_zip"), command=self.compress).pack(side=tk.LEFT, padx=5)
 
     def setup_file_frame(self):
         """存档选择，切换界面"""
         self.frame_file = tk.Frame(self.root)
         self.frame_file.pack(pady=10)
-        self.filename_label = tk.Label(self.frame_file, text="当前文件：未选择")
+        self.filename_label = tk.Label(self.frame_file, text=get_text("label_lvl_null"))
         self.filename_label.pack(side=tk.LEFT)
-        tk.Button(self.frame_file, text="选择文件", command=self.open_save_selector).pack(side=tk.LEFT, padx=10)
-        tk.Button(self.frame_file, text="切换界面", command=self.switch_frame).pack(side=tk.LEFT, padx=10)
+        tk.Button(self.frame_file, text=get_text("btn_lvl"), command=self.open_save_selector).pack(side=tk.LEFT, padx=10)
+        tk.Button(self.frame_file, text=get_text("btn_page"), command=self.switch_frame).pack(side=tk.LEFT, padx=10)
         # 混乱选项
         
     def setup_tree_artifact_frame(self):
@@ -183,15 +183,15 @@ class ArchiveEditor:
         self.artifact_tree = ttk.Treeview(frame_artifact,columns=("id","name"),show="headings",selectmode="browse")
         self.artifact_tree.heading("id",text="ID")
         self.artifact_tree.column("id",width=28)
-        self.artifact_tree.heading("name",text="制品名称")
+        self.artifact_tree.heading("name",text=get_text("tree_artifact"))
         self.artifact_tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=5, pady=5)
         # 相关控件
         artifact_control_frame = tk.Frame(frame_artifact)
         artifact_control_frame.pack(side=tk.RIGHT, padx=10)
-        self.artifact_box = ttk.Combobox(artifact_control_frame, values=artifact_name, state="disabled", width=10)
+        self.artifact_box = ttk.Combobox(artifact_control_frame, values=artifact_name, state="disabled", width=18)
         self.artifact_box.pack(pady=(0, 12))
-        tk.Button(artifact_control_frame, text="添加", width=8, command=self.add_artifact).pack(fill=tk.X, pady=12)
-        tk.Button(artifact_control_frame, text="删除", width=8, command=self.remove_artifact).pack(fill=tk.X, pady=12)
+        tk.Button(artifact_control_frame, text=get_text("btn_add"), width=8, command=self.add_artifact).pack(fill=tk.X, pady=12)
+        tk.Button(artifact_control_frame, text=get_text("btn_delete"), width=8, command=self.remove_artifact).pack(fill=tk.X, pady=12)
 
     def setup_tree_blueprint_frame(self):
         """蓝图"""
@@ -201,7 +201,7 @@ class ArchiveEditor:
         self.blueprint_tree = ttk.Treeview(frame_blueprint,columns=("id","name"),show="headings",selectmode="browse")
         self.blueprint_tree.heading("id",text="ID")
         self.blueprint_tree.column("id",width=28)
-        self.blueprint_tree.heading("name",text="蓝图名称")
+        self.blueprint_tree.heading("name",text=get_text("tree_blueprint"))
         self.blueprint_tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=5, pady=5)
         # 相关控件
         blueprint_control_frame = tk.Frame(frame_blueprint)
@@ -209,54 +209,54 @@ class ArchiveEditor:
         self.blueprint_box = ttk.Combobox(blueprint_control_frame, values=blueprint_name, state="disabled", width=20)
         self.blueprint_box.pack(pady=(0, 12))
         # tk.Button(blueprint_control_frame, text="添加", width=8).pack(fill=tk.X, pady=12)
-        tk.Button(blueprint_control_frame, text="修改", width=8, command=self.modify_blueprint).pack(fill=tk.X, pady=12)
+        tk.Button(blueprint_control_frame, text=get_text("btn_modify"), width=8, command=self.modify_blueprint).pack(fill=tk.X, pady=12)
         # tk.Button(blueprint_control_frame, text="删除", width=8).pack(fill=tk.X, pady=12)
 
     def setup_numeric_group_frame(self):
         frame_group = tk.Frame(self.frame_numeric)
         frame_group.pack(side=tk.LEFT, padx=10, expand=True)
-        tk.Label(frame_group, text="章节：").grid(row=0, column=0, sticky="w", pady=12)
+        tk.Label(frame_group, text=get_text("label_chapter")).grid(row=0, column=0, sticky="e", pady=12)
         self.numeric_stageDefinition_box = ttk.Combobox(frame_group,values=maps_name,state="disable",width=16)
         self.numeric_stageDefinition_box.grid(row=0, column=1, sticky="ew", pady=12)
         self.numeric_stageDefinition_box.set("")
         self.numeric_stageDefinition_box.bind("<<ComboboxSelected>>",self.mix_stageDefinitionID)
-        tk.Label(frame_group, text="关卡：").grid(row=1, column=0, sticky="w", pady=12)
+        tk.Label(frame_group, text=get_text("label_day")).grid(row=1, column=0, sticky="e", pady=12)
         self.numeric_stageDefinitionID_box = ttk.Combobox(frame_group,values=level,state="disable",width=16)
         self.numeric_stageDefinitionID_box.grid(row=1, column=1, sticky="ew", pady=12)
         self.numeric_stageDefinitionID_box.set("")
         self.numeric_stageDefinitionID_box.bind("<<ComboboxSelected>>",self.mix_stageDefinitionID)
-        tk.Label(frame_group, text="旗数：").grid(row=2, column=0, sticky="w", pady=12)
+        tk.Label(frame_group, text=get_text("label_flag")).grid(row=2, column=0, sticky="e", pady=12)
         self.numeric_flag_input = ttk.Entry(frame_group, state="disable", textvariable=self.data_flag, validate='key',validatecommand=(self.root.register(self.change_flag), '%d', '%i', '%P', '%s', '%v', '%V', '%W'))
         self.numeric_flag_input.grid(row=2, column=1, sticky="ew", pady=12)
-        tk.Label(frame_group, text="波数：").grid(row=3, column=0, sticky="w", pady=12)
+        tk.Label(frame_group, text=get_text("label_wave")).grid(row=3, column=0, sticky="e", pady=12)
         self.numeric_wave_input = ttk.Entry(frame_group, state="disable", textvariable=self.data_wave, validate='key',validatecommand=(self.root.register(self.change_wave), '%d', '%i', '%P', '%s', '%v', '%V', '%W'))
         self.numeric_wave_input.grid(row=3, column=1, sticky="ew", pady=12)
-        tk.Label(frame_group, text="当前机械能：").grid(row=0, column=2, sticky="w", pady=12)
+        tk.Label(frame_group, text=get_text("label_energy")).grid(row=0, column=2, sticky="e", pady=12)
         self.numeric_energy_input = ttk.Entry(frame_group, state="disable", textvariable=self.data_energy, validate='key',validatecommand=(self.root.register(self.change_energy), '%d', '%i', '%P', '%s', '%v', '%V', '%W'))
         self.numeric_energy_input.grid(row=0, column=3, sticky="ew", pady=12)
-        tk.Label(frame_group, text="机械能上限：").grid(row=1, column=2, sticky="w", pady=12)
+        tk.Label(frame_group, text=get_text("label_maxEnergy")).grid(row=1, column=2, sticky="e", pady=12)
         self.numeric_maxEnergy_input = ttk.Entry(frame_group, state="disable", textvariable=self.data_maxEnergy, validate='key',validatecommand=(self.root.register(self.change_maxEnergy), '%d', '%i', '%P', '%s', '%v', '%V', '%W'))
         self.numeric_maxEnergy_input.grid(row=1, column=3, sticky="ew", pady=12)
-        tk.Label(frame_group, text="星之碎片数：").grid(row=2, column=2, sticky="w", pady=12)
+        tk.Label(frame_group, text=get_text("label_starshard")).grid(row=2, column=2, sticky="e", pady=12)
         self.numeric_starshardCount_input = ttk.Entry(frame_group, state="disable", textvariable=self.data_starshardCount, validate='key',validatecommand=(self.root.register(self.change_starshardCount), '%d', '%i', '%P', '%s', '%v', '%V', '%W'))
         self.numeric_starshardCount_input.grid(row=2, column=3, sticky="ew", pady=12)
-        tk.Label(frame_group, text="星之碎片槽：").grid(row=3, column=2, sticky="w", pady=12)
+        tk.Label(frame_group, text=get_text("label_maxStarshard")).grid(row=3, column=2, sticky="e", pady=12)
         self.numeric_starshardSlotCount_input = ttk.Entry(frame_group, state="disable", textvariable=self.data_starshardSlotCount, validate='key',validatecommand=(self.root.register(self.change_starshardSlotCount), '%d', '%i', '%P', '%s', '%v', '%V', '%W'))
         self.numeric_starshardSlotCount_input.grid(row=3, column=3, sticky="ew", pady=12)
-        tk.Label(frame_group, text="启用传送带：").grid(row=0, column=4, sticky="w", pady=12)
-        self.numeric_isConveyorMode_box = ttk.Combobox(frame_group,values=["是","否"],state="disable",width=16)
+        tk.Label(frame_group, text=get_text("label_conveyor")).grid(row=0, column=4, sticky="e", pady=12)
+        self.numeric_isConveyorMode_box = ttk.Combobox(frame_group,values=[get_text("True"),get_text("False")],state="disable",width=16)
         self.numeric_isConveyorMode_box.grid(row=0, column=5, sticky="ew", pady=12)
         self.numeric_isConveyorMode_box.set("")
         self.numeric_isConveyorMode_box.bind("<<ComboboxSelected>>",self.is_ConveyorMode)
-        tk.Label(frame_group, text="传送带槽数：").grid(row=1, column=4, sticky="w", pady=12)
+        tk.Label(frame_group, text=get_text("label_conveyorslot")).grid(row=1, column=4, sticky="e", pady=12)
         self.numeric_conveyorSlotCount_input = ttk.Entry(frame_group, state="disable", textvariable=self.data_conveyorSlotCount, validate='key',validatecommand=(self.root.register(self.change_conveyorSlotCount), '%d', '%i', '%P', '%s', '%v', '%V', '%W'))
         self.numeric_conveyorSlotCount_input.grid(row=1, column=5, sticky="ew", pady=12)
-        tk.Label(frame_group, text="背景音乐：").grid(row=2, column=4, sticky="w", pady=12)
+        tk.Label(frame_group, text=get_text("label_bgm")).grid(row=2, column=4, sticky="e", pady=12)
         self.numeric_musicID_box = ttk.Combobox(frame_group,values=musics_name,state="disable",width=16)
         self.numeric_musicID_box.grid(row=2, column=5, sticky="ew", pady=12)
         self.numeric_musicID_box.set("")
         self.numeric_musicID_box.bind("<<ComboboxSelected>>",self.change_musicID)
-        tk.Button(frame_group, text="                   关于修改器                    ",command=self.open_about).grid(row=3,column=4,columnspan=2)
+        tk.Button(frame_group, text=get_text("btn_about"),command=self.open_about).grid(row=3,column=4,columnspan=2,ipadx=32)
 
 
     # endregion
@@ -277,12 +277,12 @@ class ArchiveEditor:
         try:
             self.current_file = selected_path
             self.current_data = json.loads(decompress(self.current_file).decode("utf-8"),cls=CustonJson.CustomDecoder)
-            self.filename_label.config(text="当前存档：" + os.path.basename(self.current_file))
+            self.filename_label.config(text=get_text("label_lvl") + os.path.basename(self.current_file))
             self.refresh()
             # print(self.current_data)
             # print(json.dumps(self.current_data,cls=CustonJson.CustomEncoder))
         except Exception as e:
-            messagebox.showerror("错误", f"加载存档失败:\n{str(e)}")
+            messagebox.showerror("Error", f"Failed to load file:\n{str(e)}")
     # 处理用户窗口
     def open_user_selector(self):
         """打开用户选择窗口"""
@@ -296,7 +296,7 @@ class ArchiveEditor:
         """处理选择的用户"""
         self.currentUserIndex = selected_user
         self.username = self.users['metas'][self.currentUserIndex]['username']
-        self.username_label.config(text="当前用户：" + self.username)
+        self.username_label.config(text=get_text("label_user") + self.username)
     # endregion
     # region tree_frame
     # 添加制品
@@ -432,7 +432,7 @@ class ArchiveEditor:
         return False
     # 是否启用传送带
     def is_ConveyorMode(self,event):
-        if self.numeric_isConveyorMode_box.get()=="是":
+        if self.numeric_isConveyorMode_box.get()==get_text("True"):
             self.current_data['level']['components']['mvz2:blueprints']['isConveyorMode'] = True
             self.current_data['level']['properties']['noEnergy'] = True
         else:
@@ -460,7 +460,7 @@ class ArchiveEditor:
     def output_file(self):
         save_dir=get_save_path() + "/user%d/mvz2/level/"%(self.currentUserIndex) + os.path.basename(self.current_file)
         output=json.dumps(self.current_data,cls=CustonJson.CustomEncoder).encode("utf-8")
-        self.status.set("已保存到：" + save_dir)
+        self.status.set(get_text("status_save") + save_dir)
         compress(save_dir,output)
     # 切换界面
     def switch_frame(self):
@@ -486,8 +486,8 @@ class ArchiveEditor:
     def decompress(self):
         '''单文件解压'''
         file_path = filedialog.askopenfilename(
-            title="选择存档文件",
-            filetypes=[("存档文件", ["*.dat", "*.lvl"])]
+            title="Choose file",
+            filetypes=[("Save file", ["*.dat", "*.lvl"])]
         )
         if not file_path:
             return
@@ -495,15 +495,15 @@ class ArchiveEditor:
             with gzip.open(file_path, "rb") as fin:
                 with open(file_path + ".json", "wb") as fout:
                     fout.write(fin.read())
-            self.status.set(f"解压完成: {os.path.basename(file_path)}")
+            self.status.set(f"Output: {os.path.basename(file_path)}")
         except Exception as e:
-            messagebox.showerror("错误", f"解压失败: {str(e)}")
+            messagebox.showerror("Error", f"Failed to decompress: {str(e)}")
 
     def compress(self):
         '''单文件压缩'''
         file_path = filedialog.askopenfilename(
-            title="选择解压文件",
-            filetypes=[("JSON 文件", "*.json"), ("任意文件", "*")]
+            title="Choose file",
+            filetypes=[("JSON file", "*.json"), ("Any file", "*")]
         )
         if not file_path:
             return
@@ -511,9 +511,9 @@ class ArchiveEditor:
             with open(file_path, "rb") as fin:
                 with gzip.open(file_path + ".lvl", "wb") as fout:
                     shutil.copyfileobj(fin, fout)
-            self.status.set(f"压缩完成: {os.path.basename(file_path)}")
+            self.status.set(f"Output: {os.path.basename(file_path)}")
         except Exception as e:
-            messagebox.showerror("错误", f"压缩失败: {str(e)}")
+            messagebox.showerror("Error", f"Failed to compress: {str(e)}")
 
     # endregion
 
@@ -526,13 +526,13 @@ class ArchiveEditor:
             self.blueprint_box.config(state="disabled")
             self.blueprint_box.set("")
 
-            self.filename_label.config(text="当前存档：未选择")
+            self.filename_label.config(text=get_text("label_lvl_null"))
             self.output_btn.config(state="disabled")
         else:
             self.artifact_box.config(state="readonly")
-            self.artifact_box.set("图鉴")
+            self.artifact_box.set(artifact_name[0])
             self.blueprint_box.config(state="readonly")
-            self.blueprint_box.set("发射器")
+            self.blueprint_box.set(blueprint_name[0])
 
             self.output_btn.config(state="normal")
             self.refresh_artifact()
@@ -592,9 +592,9 @@ class ArchiveEditor:
             self.data_starshardSlotCount.set(self.current_data['level']['properties']['starshardSlotCount'])
             self.numeric_isConveyorMode_box.config(state="readonly")
             if self.current_data['level']['components']['mvz2:blueprints']['isConveyorMode']:
-                self.numeric_isConveyorMode_box.set("是")
+                self.numeric_isConveyorMode_box.set(get_text("True"))
             else:
-                self.numeric_isConveyorMode_box.set("否")
+                self.numeric_isConveyorMode_box.set(get_text("False"))
             self.numeric_conveyorSlotCount_input.config(state="normal")
             self.data_conveyorSlotCount.set(self.current_data['level']['conveyorSlotCount'])
             self.numeric_musicID_box.config(state="readonly")
