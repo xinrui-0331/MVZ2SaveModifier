@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import filedialog, messagebox, scrolledtext, ttk
+from tkinter import ttk
 import os
 import webbrowser
 
@@ -139,6 +139,7 @@ class UserSelector(tk.Toplevel):
         self.on_select(selected_user)
         self.destroy()
 
+# 关于
 class AboutWindow:
     def __init__(self, parent):
         # 创建顶级窗口
@@ -192,6 +193,7 @@ Disclaimer: The author is not responsible for any file damage caused by the use 
         """打开外部链接"""
         webbrowser.open_new(url)
 
+# 选择语言窗口
 class LanguageSelector:
     def __init__(self, on_select):
         self.on_select = on_select
