@@ -36,7 +36,7 @@ def get_save_path():
     '''根据系统返回userdata路径'''
     system = platform.system()
     if system == "Windows":
-        return os.path.expandvars(r"C:/Users/%username%/AppData/LocalLow/Cuerzor/MinecraftVSZombies2/userdata")
+        return os.path.expandvars(r"%HOMEPATH%/AppData/LocalLow/Cuerzor/MinecraftVSZombies2/userdata")
     elif system == "Darwin":  # macOS
         return os.path.expanduser("~/Library/Application Support/Cuerzor/MinecraftVSZombies2/userdata")
     else:  # Linux
